@@ -1,0 +1,26 @@
+{
+  "name": "iverywhere",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Iverywhere local 9P virtual disk with transactional service control",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "smoke": "node scripts/smoke.js",
+    "ivwh": "node bin/ivwh.js",
+    "lint": "node scripts/lint.js",
+    "test": "node --test test/*.test.js",
+    "build": "node scripts/build.js"
+  },
+  "keywords": [
+    "9p",
+    "virtual-disk",
+    "transaction",
+    "service-control"
+  ],
+  "license": "UNLICENSED"
+}

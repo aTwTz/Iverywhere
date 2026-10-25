@@ -1,0 +1,39 @@
+name: quality-gate
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: verify runtime
+        run: |
+          node --version
+          npm --version
+          node -e "const [major]=process.versions.node.split('.').map(Number); if (major < 20) process.exit(1)"
+
+      - name: install
+        run: npm install
+
+      - name: lint
+        run: npm run lint
+
+      - name: test
+        run: npm test
+
+      - name: build
+        run: npm run build
+
+      - name: smoke
+        run: npm run smoke
+
+      - name: cli
+        run: npm run ivwh -- help >/dev/null && bash bin/ivwh help >/dev/null

@@ -1,0 +1,59 @@
+{
+  "server": {
+    "transport": "unix",
+    "unixSocket": "./run/iverywhere.sock",
+    "host": "127.0.0.1",
+    "port": 5640,
+    "dataDir": "./data",
+    "maxMessageSize": 1048576,
+    "defaultMount": "operator"
+  },
+  "transactions": {
+    "deadlineMs": 10000,
+    "queueWaitMs": 5000
+  },
+  "snapshots": {
+    "retentionLimit": 50
+  },
+  "security": {
+    "writeGrantMs": 60000
+  },
+  "mounts": {
+    "operator": {
+      "services": ["demo"],
+      "allowWrite": true,
+      "maxWriteBytes": 16384,
+      "rateLimit": {
+        "writesPerSecond": 8,
+        "burst": 12
+      }
+    },
+    "readonly": {
+      "services": ["demo"],
+      "allowWrite": false,
+      "maxWriteBytes": 0,
+      "rateLimit": {
+        "writesPerSecond": 2,
+        "burst": 2
+      }
+    }
+  },
+  "services": {
+    "demo": {
+      "description": "Local demo service used by the smoke test and first mount",
+      "adapter": "js",
+      "runtime": {
+        "mode": "worker",
+        "script": "tasks/demo-service.js",
+        "scriptSha256": "7df484b62bd82a9abb5a11227c4b753526fcc98a7e4c849ea77c65e1d6e47b2d",
+        "timeoutMs": 1500
+      },
+      "healthTimeoutMs": 1000,
+      "initialConfig": {
+        "greeting": "hello from Iverywhere",
+        "maxItems": 3,
+        "failHealth": false
+      }
+    }
+  }
+}
